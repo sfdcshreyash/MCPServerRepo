@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <externalSharingModel>Private</externalSharingModel>
+    <label>Test Beans</label>
+    <pluralLabel>Test Beans</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+    <nameField>
+        <label>Test Beans Name</label>
+        <type>Text</type>
+    </nameField>
+</CustomObject>
+

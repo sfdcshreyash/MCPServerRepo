@@ -1,0 +1,133 @@
+<template>
+    <lightning-card>
+    <div class="ga-shell">
+
+        <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+        <header class="ga-header">
+            <div class="ga-header-badge">
+                <span class="ga-badge-glow"></span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L14.5 9.5H22L16 14L18.5 21.5L12 17L5.5 21.5L8 14L2 9.5H9.5L12 2Z"
+                          fill="url(#starGrad)"/>
+                    <defs>
+                        <linearGradient id="starGrad" x1="2" y1="2" x2="22" y2="22">
+                            <stop offset="0%" stop-color="#60a5fa"/>
+                            <stop offset="100%" stop-color="#a78bfa"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="ga-header-text">
+                <h1 class="ga-heading">Salesforce AI Assistant</h1>
+                <p class="ga-subheading">Powered by Gemini &nbsp;·&nbsp; Ask anything about your org</p>
+            </div>
+            <div class="ga-live-pill">
+                <span class="ga-live-dot"></span>
+                <span class="ga-live-label">Live</span>
+            </div>
+        </header>
+
+        <!-- ══ CONVERSATION AREA ════════════════════════════════════════ -->
+        <section class="ga-conversation" lwc:ref="conversation">
+
+            <!-- Empty / Welcome State -->
+            <template if:true={isEmpty}>
+                <div class="ga-welcome">
+                    <div class="ga-welcome-icon">◈</div>
+                    <h2 class="ga-welcome-title">What can I help you with?</h2>
+                    <p class="ga-welcome-body">
+                        Type any question or instruction in the search box below.<br/>
+                        Try: &ldquo;Show all accounts&rdquo; &bull; &ldquo;Create account name: Acme&rdquo;
+                        &bull; &ldquo;What is a trigger?&rdquo;
+                    </p>
+                </div>
+            </template>
+
+            <!-- Message List -->
+            <template for:each={messages} for:item="msg">
+                <div key={msg.id} class={msg.rowClass}>
+
+                    <!-- USER message -->
+                    <template if:true={msg.isUser}>
+                        <div class="ga-bubble ga-bubble-user">
+                            <p class="ga-bubble-text">{msg.text}</p>
+                        </div>
+                        <div class="ga-avatar ga-avatar-user">YOU</div>
+                    </template>
+
+                    <!-- AI message -->
+                    <template if:false={msg.isUser}>
+                        <div class="ga-avatar ga-avatar-ai">AI</div>
+                        <div class={msg.bubbleClass}>
+                            <!-- Loading dots -->
+                            <template if:true={msg.isLoading}>
+                                <div class="ga-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </template>
+                            <!-- Response text -->
+                            <template if:false={msg.isLoading}>
+                                <p class="ga-bubble-text">{msg.text}</p>
+                                <template if:true={msg.isSuccess}>
+                                    <span class="ga-tag ga-tag-success">&#10004; Success</span>
+                                </template>
+                                <template if:true={msg.isError}>
+                                    <span class="ga-tag ga-tag-error">&#9888; Error</span>
+                                </template>
+                            </template>
+                        </div>
+                    </template>
+
+                </div>
+            </template>
+        </section>
+
+        <!-- ══ SEARCH / INPUT AREA ══════════════════════════════════════ -->
+        <footer class="ga-footer">
+            <div class="ga-search-row">
+                <div class="ga-input-box">
+                    <svg class="ga-input-icon" width="16" height="16" viewBox="0 0 24 24"
+                         fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="7" stroke="#4a5270" stroke-width="2"/>
+                        <path d="M20 20L16.65 16.65" stroke="#4a5270" stroke-width="2"
+                              stroke-linecap="round"/>
+                    </svg>
+                    <input
+                        class="ga-input"
+                        type="text"
+                        placeholder="Ask something… e.g. Show all accounts"
+                        value={promptValue}
+                        oninput={handleInput}
+                        onkeyup={handleKeyUp}
+                        disabled={isLoading}
+                        lwc:ref="searchInput"
+                    />
+                    <template if:true={promptValue}>
+                        <button class="ga-clear" onclick={clearInput} title="Clear">&#10005;</button>
+                    </template>
+                </div>
+                <button class={askBtnClass} onclick={handleSend} disabled={isSendDisabled}>
+                    <template if:true={isLoading}>
+                        <span class="ga-spinner"></span>
+                    </template>
+                    <template if:false={isLoading}>
+                        <span class="ga-ask-label">Ask</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M13 6L19 12L13 18"
+                                  stroke="currentColor" stroke-width="2.2"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </template>
+                </button>
+            </div>
+            <div class="ga-footer-meta">
+                <button class="ga-clear-chat" onclick={clearChat}>&#8635; Clear conversation</button>
+                <span class="ga-counter">{messageCount} message(s)</span>
+            </div>
+        </footer>
+
+    </div>
+    </lightning-card>
+</template>

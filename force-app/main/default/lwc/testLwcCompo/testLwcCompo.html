@@ -1,0 +1,22 @@
+<template>
+    <lightning-card>
+        <lightning-input label="Account Name" value={accName} onchange={accNameHandler}></lightning-input><br/>
+        
+        <template if:true={errorMessageReply}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                {error}
+            </div>
+        </template>
+
+        <lightning-button label="Submit" onclick={clickHandler}></lightning-button>
+    </lightning-card>
+
+    <template if:true={isData}>
+        <lightning-datatable
+            key-field="Id"
+            data={accData}
+            columns={columns}>
+        </lightning-datatable>
+    </template>
+    
+</template>

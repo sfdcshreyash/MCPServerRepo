@@ -1,0 +1,7 @@
+<template>
+    <lightning-card title="Zendesk Details">
+    <lightning-input class="slds-p-around_x-small" label="Zendesk Body" onchange={zendBodyHandler} value={bodyValue}></lightning-input>
+    <lightning-input class="slds-p-around_x-small" label="Zendesk Subject" onchange={zendSubjectHandler} value={subjectValue}></lightning-input>
+    <lightning-button label="Submit" class="slds-m-top_medium slds-p-left_x-small" variant="brand" onclick={submitHandler}></lightning-button>
+   </lightning-card>
+</template>

@@ -1,0 +1,28 @@
+<apex:page standardController="Account" recordSetVar="accounts" extensions="AccountContactController" >
+    <apex:form >
+        <apex:outputPanel id="showContactData">
+        <apex:pageBlock title="Contact List of Selected Accounts" rendered="{!isContacts}">
+            <apex:pageBlockTable value="{!Contacts}" var="con">
+                <apex:column headerValue="Select">
+                    <apex:inputCheckbox value="{!contactSelectMap[con.Id]}"/>
+                </apex:column>
+                <apex:column value="{!con.Account.Name}" headerValue="Account Name"></apex:column>
+                <apex:column value="{!con.Name}" headerValue="Contact Name"></apex:column>
+                <apex:column value="{!con.Email}" headerValue="Contact Email"></apex:column>
+                <apex:column value="{!con.Phone}" headerValue="Contact Phone"></apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        <apex:commandButton value="Submit" action="{!getSelectedContactIds}" rendered="{!isContacts}"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="showCaseData">
+        <apex:pageBlock title="Cases List of Selected Contacts" rendered="{!isCases}">
+            <apex:pageBlockTable value="{!caseList}" var="cs">
+                <apex:column value="{!cs.Account.Name}" headerValue="Account Name"></apex:column>
+                <apex:column value="{!cs.CaseNumber}" headerValue="CaseNumber"></apex:column>
+                <apex:column value="{!cs.Origin}" headerValue="CaseOrigin"></apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        </apex:outputPanel>
+        <apex:commandButton value="Back" rendered="{!isCases && NOT(isContacts)}" rerender="showContactData,showCaseData" action="{!getBacktocontact}"/>
+    </apex:form>
+</apex:page>

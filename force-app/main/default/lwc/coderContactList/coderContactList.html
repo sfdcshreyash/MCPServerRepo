@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Recent 10 Contacts" icon-name="standard:contact">
+        <template if:true={contacts}>
+            <lightning-datatable
+                key-field="Id"
+                data={contacts}
+                columns={columns}>
+            </lightning-datatable>
+        </template>
+
+        <template if:true={error}>
+            <div class="slds-p-around_small slds-text-color_error">
+                Error loading contacts.
+            </div>
+        </template>
+
+        <template if:false={contacts} if:false={error}>
+            <lightning-spinner alternative-text="Loading contacts" size="medium"></lightning-spinner>
+        </template>
+    </lightning-card>
+</template>

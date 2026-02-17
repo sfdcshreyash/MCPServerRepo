@@ -1,0 +1,60 @@
+<template>
+     <template lwc:if={isContacts}>
+     <c-child-lightning-modal-compo recieved-data={contactList} oncls={handlerController} onprevious={previousButtonHandler}></c-child-lightning-modal-compo>
+    </template>
+   <template lwc:else>
+    <lightning-modal-header style="color:blueviolet; font-weight:bold" label="Account Details"></lightning-modal-header>
+     <div style="color:violet; font-weight:bold;"><h1>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Note : We need to select account before submit button and scrolling account by using next and previous button</h1></div>
+    <lightning-modal-body>
+        <template if:true={isData}>
+        <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+        </template>
+        <lightning-datatable
+        key-field="id"
+        data={accList}
+        columns={columns}
+        onrowselection={selectedAccountHandler}>
+        </lightning-datatable>
+       </template>
+     <template if:true={errorMessageReply}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                {errorMessage}
+            </div>
+        </template>
+        <template if:true={isSelected}>
+        <lightning-datatable
+        key-field="id"
+        data={selectedData}
+        columns={selectedColumns}
+        onrowaction={handleRowAction}>
+        </lightning-datatable>
+        </template>
+    </lightning-modal-body>
+    
+    <lightning-modal-footer>
+        <div class="slds-grid slds-gutters slds-p-right_xx-large">
+        <div class="slds-col">
+    <template if:true={isData}>  
+    <span style='color:blueviolet;'>Showing </span><span style="color:black; font-weight:bold;">{pageNumber}</span> <span style="color:blueviolet;">of</span>
+       &nbsp;<span style="color:black; font-weight:bold;">{totalPage}</span> <span style="color:blueviolet;">page(s)</span>
+      &nbsp;
+      </template>   
+        </div>
+        <div class="slds-col">
+        <template if:true={isSelected}>
+        <lightning-button variant="neutral" label="Previous" onclick={handlePreviousButton}></lightning-button> &nbsp;
+        </template>
+        <lightning-button variant="brand" label="Cancel" onclick={handleClose}></lightning-button> &nbsp;
+        <template if:true={isData}>
+        <lightning-button variant="neutral" label="First" onclick={handleFirst}></lightning-button> &nbsp;
+        <lightning-button variant="neutral" label="Previous" onclick={handlePrevious}></lightning-button> &nbsp;
+        <lightning-button variant="neutral" label="Next" onclick={handleNext}></lightning-button> &nbsp;
+        <lightning-button variant="neutral" label="Last" onclick={handleLast}></lightning-button> &nbsp;
+        <lightning-button variant="brand" label="Submit" onclick={handleSubmit}></lightning-button>
+        </template>
+        </div>
+        </div>
+    </lightning-modal-footer>
+   </template>
+</template>

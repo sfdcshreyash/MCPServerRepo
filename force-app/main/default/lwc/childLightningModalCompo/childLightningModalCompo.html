@@ -1,0 +1,16 @@
+<template>
+    <lightning-modal-header label="Contact Details"></lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-datatable
+        key-field="id"
+        data={recievedData}
+        columns={columns}
+        onrowselection={selectedAccountHandler}>
+        </lightning-datatable>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button variant="brand" label="Cancel" onclick={handleCancel}></lightning-button> &nbsp;&nbsp;
+        <lightning-button variant="neutral" label="Previous" onclick={handlePreviousBotton}></lightning-button> &nbsp;&nbsp;
+    </lightning-modal-footer>
+    
+</template>

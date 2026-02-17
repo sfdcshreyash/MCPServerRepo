@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Recent 10 Accounts" icon-name="standard:account">
+        <template if:true={accounts}>
+            <lightning-datatable
+                key-field="Id"
+                data={accounts}
+                columns={columns}>
+            </lightning-datatable>
+        </template>
+
+        <template if:true={error}>
+            <div class="slds-p-around_small slds-text-color_error">
+                Error loading accounts.
+            </div>
+        </template>
+
+        <template if:false={accounts}>
+            <lightning-spinner alternative-text="Loading accounts" size="medium"></lightning-spinner>
+        </template>
+    </lightning-card>
+</template>
